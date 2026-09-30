@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090b12">
+  <meta name="description" content="Rocket League Tools — calculadora de MMR rápida y responsive.">
+  <title>Rocket League Tools — MMR Calculator</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#">
+      <span class="brand-mark">RL</span>
+      <span>Rocket League <b>Tools</b></span>
+    </a>
+    <nav>
+      <a class="active" href="#calculator">MMR Calculator</a>
+      <a href="#how">Cómo funciona</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="eyebrow"><span></span> ROCKET LEAGUE TOOLS</div>
+      <h1>Calculadora de <em>MMR</em></h1>
+      <p>Calcula tu MMR estimado, descubre tu rango aproximado y mira cuánto necesitas para llegar a tu objetivo.</p>
+    </section>
+
+    <section id="calculator" class="calculator-layout">
+      <div class="card form-card">
+        <div class="card-heading">
+          <div>
+            <p class="label">CONFIGURACIÓN</p>
+            <h2>Tus datos</h2>
+          </div>
+          <div class="live-dot">● LIVE</div>
+        </div>
+
+        <div class="field">
+          <label for="mmr">MMR actual</label>
+          <div class="input-wrap">
+            <input id="mmr" type="number" min="0" max="5000" value="1063" inputmode="numeric">
+            <span>MMR</span>
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="playlist">Modo</label>
+          <select id="playlist">
+            <option value="2v2">2v2 — Dobles</option>
+            <option value="3v3">3v3 — Estándar</option>
+            <option value="1v1">1v1 — Duelo</option>
+          </select>
+        </div>
+
+        <div class="two-cols">
+          <div class="field">
+            <label for="change">MMR por partida</label>
+            <div class="input-wrap">
+              <input id="change" type="number" min="1" max="100" value="9" inputmode="numeric">
+              <span>±</span>
+            </div>
+          </div>
+          <div class="field">
+            <label for="games">Partidas</label>
+            <div class="input-wrap">
+              <input id="games" type="number" min="0" max="1000" value="10" inputmode="numeric">
+              <span>GAMES</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="winrate-box">
+          <div class="winrate-top">
+            <label>Porcentaje de victorias</label>
+            <strong id="winrateValue">60%</strong>
+          </div>
+          <input id="winrate" class="range" type="range" min="0" max="100" value="60">
+          <div class="range-labels"><span>0%</span><span>50%</span><span>100%</span></div>
+        </div>
+
+        <button id="calculate" class="primary-btn">Calcular MMR <span>→</span></button>
+        <p class="note">* El cambio real de MMR puede variar según el sistema de matchmaking y la partida.</p>
+      </div>
+
+      <div class="card result-card">
+        <div class="result-top">
+          <div>
+            <p class="label">RESULTADO ESTIMADO</p>
+            <div class="mmr-result"><span id="resultMmr">1072</span><small>MMR</small></div>
+          </div>
+          <div id="rankBadge" class="rank-badge diamond">DIAMOND III</div>
+        </div>
+
+        <div class="progress-section">
+          <div class="progress-info">
+            <span>Progreso del rango</span>
+            <strong id="progressText">—</strong>
+          </div>
+          <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+        </div>
+
+        <div class="stats-grid">
+          <div class="stat">
+            <span>MMR ganado</span>
+            <strong id="gained">+9</strong>
+          </div>
+          <div class="stat">
+            <span>Victorias</span>
+            <strong id="wins">6</strong>
+          </div>
+          <div class="stat">
+            <span>Derrotas</span>
+            <strong id="losses">4</strong>
+          </div>
+          <div class="stat">
+            <span>Win rate</span>
+            <strong id="resultWinrate">60%</strong>
+          </div>
+        </div>
+
+        <div class="target-box">
+          <div>
+            <span class="label">OBJETIVO</span>
+            <h3>¿Hasta dónde quieres llegar?</h3>
+          </div>
+          <div class="target-row">
+            <input id="target" type="number" min="0" max="5000" value="1200" inputmode="numeric">
+            <span>MMR</span>
+          </div>
+          <div id="targetResult" class="target-result">Necesitas aproximadamente 16 victorias netas para alcanzar 1200 MMR.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how" class="info-section">
+      <div>
+        <p class="label">INFORMACIÓN</p>
+        <h2>¿Qué es el MMR?</h2>
+      </div>
+      <p>El MMR (Matchmaking Rating) es una puntuación que utiliza el sistema competitivo para emparejar jugadores de nivel similar. En Rocket League, desde 2026 puedes activar la visualización del MMR dentro del juego.</p>
+    </section>
+
+    <section class="ranks-section">
+      <div class="section-title">
+        <div>
+          <p class="label">REFERENCIA</p>
+          <h2>Rangos aproximados</h2>
+        </div>
+        <span>Los límites pueden variar según modo y temporada.</span>
+      </div>
+      <div id="rankList" class="rank-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    <span>Rocket League Tools</span>
+    <span>No afiliado oficialmente con Psyonix o Rocket League.</span>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
