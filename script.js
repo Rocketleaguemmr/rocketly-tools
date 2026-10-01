@@ -49,9 +49,8 @@ function calculateMMR() {
     if (diff <= 0) {
         targetResultEl.textContent = `¡Ya estás en tu objetivo o por encima de él!`;
     } else {
-        // Estimando ~9 MMR por victoria neta
         const gamesNeeded = Math.ceil(diff / 9);
-        .textContent = `Necesitas aproximadamente ${gamesNeeded} victorias netas para alcanzar ${target} MMR.`;
+        targetResultEl.textContent = `Necesitas aproximadamente ${gamesNeeded} victorias netas para alcanzar ${target} MMR.`;
     }
 }
 
@@ -59,7 +58,6 @@ function calculateStreak() {
     const currentMMR = Number(document.getElementById("currentStreakMMR").value) || 1145;
     const wins = Number(document.getElementById("winsStreak").value) || 0;
     
-    // Promedio competitivo de subida por racha ganadora (~9.5 MMR por partido ganado)
     const estimatedGain = Math.round(wins * 9.5);
     const newMMR = currentMMR + estimatedGain;
     const newRank = getRankByMmr(newMMR);
