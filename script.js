@@ -1,5 +1,9 @@
-// Rangos oficiales de Rocket League con umbrales de MMR correctos
-const RANKS = [
+/**
+ * Rocketly Tools - Core JavaScript Engine v2.0
+ * Motor robusto de procesamiento de MMR y simulación de rachas competitivas.
+ */
+
+const RANKS_DATABASE = [
     { name: "Bronze", min: 0, max: 350, color: "#cd7f32" },
     { name: "Silver", min: 351, max: 580, color: "#c0c0c0" },
     { name: "Gold", min: 581, max: 800, color: "#ffd700" },
@@ -10,69 +14,95 @@ const RANKS = [
     { name: "Supersonic Legend", min: 1851, max: 5000, color: "#ffffff" }
 ];
 
-function getRankByMmr(mmr) {
-    for (let rank of RANKS) {
-        if (mmr >= rank.min && mmr <= rank.max) {
+/**
+ * Obtiene el objeto de rango correspondiente a un valor de MMR dado.
+ */
+function resolveRank(mmrValue) {
+    for (const rank of RANKS_DATABASE) {
+        if (mmrValue >= rank.min && mmrValue <= rank.max) {
             return rank;
         }
     }
-    return RANKS[RANKS.length - 1];
+    return RANKS_DATABASE[RANKS_DATABASE.length - 1];
 }
 
-function renderRankList() {
-    const container = document.getElementById("rankList");
-    if (!container) return;
-    container.innerHTML = RANKS.map(r => `
-        <div class="rank-item" style="border-left: 4px solid ${r.color}">
-            <span class="name" style="color: ${r.color}">${r.name}</span>
-            <span class="mmr">${r.min} - ${r.max === 5000 ? '∞' : r.max} MMR</span>
+/**
+ * Renderiza dinámicamente la tabla oficial de rangos en el DOM.
+ */
+function renderRanksGrid() {
+    const gridContainer = document.getElementById("rankList");
+    if (!gridContainer) return;
+
+    gridContainer.innerHTML = RANKS_DATABASE.map(rank => `
+        <div class="rank-item" style="border-left: 4px solid ${rank.color}">
+            <span class="name" style="color: ${rank.color}">${rank.name}</span>
+            <span class="mmr">${rank.min} - ${rank.max === 5000 ? 'Infinito' : rank.max} MMR</span>
         </div>
     `).join("");
 }
 
-function calculateMMR() {
-    const winrate = Number(document.getElementById("winrate").value) || 50;
-    const target = Number(document.getElementById("target").value) || 1150;
-    
-    // Estimación base según winrate orientativo
-    let baseMmr = Math.round(800 + (winrate - 50) * 15);
-    if (baseMmr < 0) baseMmr = 0;
+/**
+ * Ejecuta el cálculo predictivo del MMR general de la primera tarjeta.
+ */
+function executeMMRCalculation() {
+    const winrateInput = Number(document.getElementById("winrate").value);
+    const targetInput = Number(document.getElementById("target").value);
 
-    const currentRank = getRankByMmr(baseMmr);
+    // Validaciones de seguridad de datos
+    const safeWinrate = isNaN(winrateInput) ? 50 : Math.max(0, Math.min(100, winrateInput));
+    const safeTarget = isNaN(targetInput) ? 1250 : Math.max(0, Math.min(3000, targetInput));
 
-    document.getElementById("resultMmr").textContent = `${baseMmr} MMR`;
-    document.getElementById("resultRank").textContent = `${currentRank.name}`;
+    // Motor de cálculo basado en estimación ponderada
+    let evaluatedMmr = Math.round(850 + (safeWinrate - 50) * 16.5);
+    if (evaluatedMmr < 0) evaluatedMmr = 0;
 
-    const diff = target - baseMmr;
-    const targetResultEl = document.getElementById("targetResult");
+    const assignedRank = resolveRank(evaluatedMmr);
 
-    if (diff <= 0) {
-        targetResultEl.textContent = `¡Ya estás en tu objetivo o por encima de él!`;
+    // Volcado de resultados al DOM
+    document.getElementById("resultMmr").textContent = `${evaluatedMmr} MMR`;
+    document.getElementById("resultRank").textContent = assignedRank.name;
+
+    const difference = safeTarget - evaluatedMmr;
+    const targetMessageElement = document.getElementById("targetResult");
+
+    if (difference <= 0) {
+        targetMessageElement.innerHTML = `🎉 ¡Excelente! Con tu rendimiento actual de <b>${safeWinrate}%</b> de victorias, ya superas o igualas tu objetivo de ${safeTarget} MMR.`;
     } else {
-        const gamesNeeded = Math.ceil(diff / 9);
-        targetResultEl.textContent = `Necesitas aproximadamente ${gamesNeeded} victorias netas para alcanzar ${target} MMR.`;
+        const estimatedGames = Math.ceil(difference / 9.5);
+        targetMessageElement.innerHTML = `💡 Necesitarás aproximadamente <b>${estimatedGames} victorias netas</b> consecutivas o estables para escalar desde tus ${evaluatedMmr} MMR actuales hasta los ${safeTarget} MMR deseados.`;
     }
 }
 
-function calculateStreak() {
-    const currentMMR = Number(document.getElementById("currentStreakMMR").value) || 1145;
-    const wins = Number(document.getElementById("winsStreak").value) || 0;
-    
-    const estimatedGain = Math.round(wins * 9.5);
-    const newMMR = currentMMR + estimatedGain;
-    const newRank = getRankByMmr(newMMR);
+/**
+ * Ejecuta la simulación matemática de la racha de victorias de la segunda tarjeta.
+ */
+function executeStreakSimulation() {
+    const currentMmrInput = Number(document.getElementById("currentStreakMMR").value);
+    const winsInput = Number(document.getElementById("winsStreak").value);
 
-    document.getElementById("streakResult").textContent = 
-        `Con ${wins} victorias consecutivas, pasarás de ${currentMMR} a un estimado de ${newMMR} MMR (${newRank.name}).`;
+    const safeCurrentMmr = isNaN(currentMmrInput) ? 1145 : Math.max(0, Math.min(3000, currentMmrInput));
+    const safeWins = isNaN(winsInput) ? 5 : Math.max(0, Math.min(100, winsInput));
+
+    // Factor de ganancia promedio por racha ganadora en competitivo (~9.2 MMR por victoria neta)
+    const projectedGain = Math.round(safeWins * 9.2);
+    const finalProjectedMmr = safeCurrentMmr + projectedGain;
+    const finalProjectedRank = resolveRank(finalProjectedMmr);
+
+    const streakResultElement = document.getElementById("streakResult");
+    streakResultElement.innerHTML = `🚀 Tras encadenar <b>${safeWins} victorias consecutivas</b> desde tus ${safeCurrentMmr} MMR, tu MMR estimado ascenderá hasta <b>${finalProjectedMmr} MMR</b>, posicionándote directamente en el rango <b>${finalProjectedRank.name}</b>.`;
 }
 
-// Event Listeners
-document.getElementById("winrate").addEventListener("input", calculateMMR);
-document.getElementById("target").addEventListener("input", calculateMMR);
-document.getElementById("currentStreakMMR").addEventListener("input", calculateStreak);
-document.getElementById("winsStreak").addEventListener("input", calculateStreak);
+// Inicialización de eventos de escucha en los botones
+document.addEventListener("DOMContentLoaded", () => {
+    renderRanksGrid();
+    
+    const btnMMR = document.getElementById("btnCalculateMMR");
+    const btnStreak = document.getElementById("btnCalculateStreak");
 
-// Inicializar al cargar
-renderRankList();
-calculateMMR();
-calculateStreak();
+    if (btnMMR) btnMMR.addEventListener("click", executeMMRCalculation);
+    if (btnStreak) btnStreak.addEventListener("click", executeStreakSimulation);
+
+    // Ejecución inicial automática para que no aparezca vacío de inicio
+    executeMMRCalculation();
+    executeStreakSimulation();
+});
