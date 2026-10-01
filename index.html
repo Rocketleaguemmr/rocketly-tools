@@ -164,6 +164,21 @@
       <div id="rankList" class="rank-list"></div>
     </section>
   </main>
+  <section id="streak-calculator" class="calculator-layout" style="margin-top: 40px; margin-bottom: 40px;">
+    <div class="calculator-card">
+        <h2>Simulador de Rachas</h2>
+        <p>Calcula el impacto de tus victorias y derrotas consecutivas en tu MMR.</p>
+        <div class="input-group">
+            <label for="currentStreakMMR">MMR Actual</label>
+            <input id="currentStreakMMR" type="number" min="0" max="5000" value="1000" inputmode="numeric">
+        </div>
+        <div class="input-group">
+            <label for="winsStreak">Victorias consecutivas</label>
+            <input id="winsStreak" type="number" min="0" max="50" value="3" inputmode="numeric">
+        </div>
+        <div id="streakResult" class="target-result">Simula tus victorias para ver el nuevo MMR estimado.</div>
+    </div>
+</section>
 
   <footer>
     <span>Rocket League Tools</span>
