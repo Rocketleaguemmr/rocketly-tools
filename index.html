@@ -5,102 +5,174 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#090b12">
-    <meta name="description" content="Rocketly Tools - Calculadora de MMR y rachas para Rocket League. Comprueba tus rangos y planifica tus partidas.">
-    <title>Rocketly Tools — Calculadora de MMR y Rachas para Rocket League</title>
+    <meta name="description" content="Rocketly Tools - Suite avanzada de herramientas profesionales, calculadora de MMR y simulador de rachas para Rocket League.">
+    <title>Rocketly Tools — Suite Profesional de Utilidades para Rocket League</title>
     <link rel="canonical" href="https://hugocarrioncamero2011.github.io/rocketly-tools/">
-    <meta property="og:title" content="Rocketly Tools - Calculadora de MMR y Rachas">
-    <meta property="og:description" content="Calcula tu MMR estimado, descubre tu rango real en Rocket League y simula tus rachas de victorias.">
+    <meta property="og:title" content="Rocketly Tools - Calculadora de MMR y Rachas Pro">
+    <meta property="og:description" content="Calcula tu MMR estimado con precisión, analiza rangos oficiales y simula tus rachas competitivas.">
     <meta property="og:url" content="https://hugocarrioncamero2011.github.io/rocketly-tools/">
     <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="Rocketly Tools - Calculadora de MMR">
-    <meta name="twitter:description" content="Herramientas profesionales y rápidas para jugadores de Rocket League.">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Rocketly Tools - Rocket League Utilities">
+    <meta name="twitter:description" content="Herramientas de alto rendimiento para jugadores competitivos de Rocket League.">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <div class="bg-grid"></div>
+    <div class="ambient-glow"></div>
 
     <header class="site-header">
-        <a class="brand" href="#" title="Rocketly Tools - Calculadora de MMR para Rocket League">
-            <span class="brand-mark">RL</span>
-            <span>Rocket League <b>Tools</b></span>
-        </a>
-        <nav>
-            <a class="active" href="#calculator">Calculadora MMR</a>
-            <a href="#streak-calculator">Simulador de Rachas</a>
-            <a href="#ranks">Rangos</a>
-        </nav>
+        <div class="header-container">
+            <a class="brand" href="#" title="Rocketly Tools - Inicio">
+                <span class="brand-mark">RL</span>
+                <span class="brand-text">Rocketly <b>Tools</b></span>
+            </a>
+            <nav class="site-nav">
+                <a class="nav-link active" href="#calculator">Calculadora MMR</a>
+                <a class="nav-link" href="#streak-calculator">Simulador de Rachas</a>
+                <a class="nav-link" href="#ranks">Base de Rangos</a>
+                <a class="nav-link" href="#info">Guía MMR</a>
+            </nav>
+        </div>
     </header>
 
-    <main>
-        <!-- HERO / CALCULADORA DE MMR -->
+    <main class="main-content">
+        <!-- SECCIÓN HERO Y CALCULADORA DE MMR -->
         <section id="calculator" class="hero-section">
             <div class="hero-content">
-                <span class="badge">TEMPORADA COMPETITIVA</span>
-                <h1>Calculadora de MMR para Rocket League</h1>
-                <p>Estima tu progreso competitivo y descubre a qué división perteneces según tus estadísticas.</p>
+                <div class="badge-wrapper">
+                    <span class="badge">TEMPORADA COMPETITIVA OFICIAL</span>
+                </div>
+                <h1>Motor de Cálculo Predictivo de MMR</h1>
+                <p class="hero-description">
+                    Estima con total precisión tu nivel competitivo analizando tu porcentaje de victorias frente al MMR objetivo que deseas conquistar en las próximas jornadas de clasificatorias.
+                </p>
+                <div class="feature-bullets">
+                    <div class="bullet-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Algoritmo basado en distribución Elo/MMR real</span>
+                    </div>
+                    <div class="bullet-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                        <span>Asignación automática de divisiones y rangos</span>
+                    </div>
+                </div>
             </div>
 
             <div class="calculator-card">
-                <div class="input-group">
-                    <label for="winrate">Porcentaje de Victorias (%)</label>
-                    <input id="winrate" type="number" min="0" max="100" value="55" inputmode="numeric">
+                <div class="card-header">
+                    <h3>Calculadora de Rendimiento</h3>
+                    <span class="card-subtitle">Configura tus parámetros</span>
                 </div>
+
+                <div class="input-group">
+                    <label for="winrate">Porcentaje de Victorias Global (%)</label>
+                    <div class="input-wrapper">
+                        <input id="winrate" type="number" min="0" max="100" value="55" inputmode="numeric" placeholder="Ej: 55">
+                        <span class="input-unit">%</span>
+                    </div>
+                </div>
+
                 <div class="input-group">
                     <label for="target">MMR Objetivo Deseado</label>
-                    <input id="target" type="number" min="0" max="3000" value="1150" inputmode="numeric">
+                    <div class="input-wrapper">
+                        <input id="target" type="number" min="0" max="3000" value="1250" inputmode="numeric" placeholder="Ej: 1250">
+                        <span class="input-unit">MMR</span>
+                    </div>
                 </div>
-                <div class="result-box">
-                    <div class="label">ESTADO ACTUAL</div>
-                    <div id="resultMmr" class="big-number">1050 MMR</div>
-                    <div id="resultRank" class="rank-name">Champion I</div>
+
+                <button id="btnCalculateMMR" class="primary-btn">
+                    <span>Calcular Predicción MMR</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+
+                <div id="resultContainer" class="result-box">
+                    <div class="result-header">
+                        <span class="label">ESTIMACIÓN DE NIVELES</span>
+                        <div class="status-dot"></div>
+                    </div>
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <span class="sublabel">MMR Proyectado</span>
+                            <div id="resultMmr" class="big-number">-- MMR</div>
+                        </div>
+                        <div class="result-item">
+                            <span class="sublabel">Rango Asignado</span>
+                            <div id="resultRank" class="rank-name">Pendiente de cálculo</div>
+                        </div>
+                    </div>
+                    <div id="targetResult" class="target-result">Introduce tus valores y pulsa calcular para iniciar el motor.</div>
                 </div>
-                <div id="targetResult" class="target-result">Calculando datos necesarios...</div>
             </div>
         </section>
 
-        <!-- SIMULADOR DE RACHAS -->
+        <!-- SECCIÓN SIMULADOR DE RACHAS -->
         <section id="streak-calculator" class="calculator-layout">
-            <div class="calculator-card">
-                <h2>Simulador de Rachas de Victorias</h2>
-                <p>Calcula cuánto subirás de MMR si encadenas una racha positiva en ranked.</p>
-                <div class="input-group">
-                    <label for="currentStreakMMR">Tu MMR Actual</label>
-                    <input id="currentStreakMMR" type="number" min="0" max="3000" value="1145" inputmode="numeric">
+            <div class="calculator-card wide-card">
+                <div class="card-header">
+                    <h2>Simulador Avanzado de Rachas de Victorias</h2>
+                    <p class="card-subtitle">Descubre cómo impacta de forma directa una racha positiva o negativa en tu progresión de rangos.</p>
                 </div>
-                <div class="input-group">
-                    <label for="winsStreak">Victorias Consecutivas</label>
-                    <input id="winsStreak" type="number" min="0" max="50" value="3" inputmode="numeric">
+
+                <div class="form-grid">
+                    <div class="input-group">
+                        <label for="currentStreakMMR">Tu MMR Actual en Ranked</label>
+                        <div class="input-wrapper">
+                            <input id="currentStreakMMR" type="number" min="0" max="3000" value="1145" inputmode="numeric">
+                            <span class="input-unit">MMR</span>
+                        </div>
+                    </div>
+                    <div class="input-group">
+                        <label for="winsStreak">Victorias Consecutivas en Racha</label>
+                        <div class="input-wrapper">
+                            <input id="winsStreak" type="number" min="0" max="100" value="5" inputmode="numeric">
+                            <span class="input-unit">Partidas</span>
+                        </div>
+                    </div>
                 </div>
-                <div id="streakResult" class="target-result">Introduce tus victorias para ver el nuevo MMR estimado.</div>
+
+                <button id="btnCalculateStreak" class="primary-btn">
+                    <span>Simular Impacto de Racha</span>
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+                </button>
+
+                <div id="streakResult" class="target-result highlight-result">
+                    Configura los datos y pulsa el botón para simular tu racha.
+                </div>
             </div>
         </section>
 
-        <!-- SECCIÓN DE RANGOS REALES -->
+        <!-- SECCIÓN DE RANGOS OFICIALES -->
         <section id="ranks" class="ranks-section">
             <div class="section-title">
                 <div>
-                    <p class="label">REFERENCIA OFICIAL</p>
-                    <h2>Rangos de Rocket League</h2>
+                    <p class="label">JERARQUÍA COMPETITIVA</p>
+                    <h2>Tabla Oficial de Rangos y Umbrales</h2>
                 </div>
-                <span>Umbrales de MMR aproximados por categoría.</span>
+                <span>Distribución oficial de MMR por divisiones de nivel.</span>
             </div>
             <div id="rankList" class="rank-list"></div>
         </section>
 
-        <!-- INFORMACIÓN SEO -->
-        <section class="info-section">
-            <div>
-                <p class="label">INFORMACIÓN</p>
-                <h2>¿Cómo funciona el MMR?</h2>
+        <!-- SECCIÓN DE INFORMACIÓN Y SEO -->
+        <section id="info" class="info-section">
+            <div class="info-grid">
+                <div>
+                    <p class="label">DOCUMENTACIÓN</p>
+                    <h2>¿Cómo interpretar las métricas de Rocketly Tools?</h2>
+                </div>
+                <p>
+                    El sistema competitivo de Rocket League emplea algoritmos avanzados de emparejamiento basados en MMR visible y oculto (Matchmaking Rating). Nuestras herramientas procesan estimaciones estadísticas matemáticas avanzadas para ofrecerte guías de progresión fiables en tiempo real sin alterar datos externos.
+                </p>
             </div>
-            <p>El MMR (Matchmaking Rating) es el valor oculto o visible que determina emparejamientos justos. Con los rangos actualizados, alcanzar Champion I requiere rondar los 1075-1100 MMR, mientras que Grand Champion exige superar los 1435 MMR.</p>
         </section>
     </main>
 
     <footer class="footer">
-        <span>Rocket League Tools</span>
-        <span>No afiliado oficialmente con Psyonix o Rocket League.</span>
+        <div class="footer-content">
+            <span>© 2026 Rocketly Tools. Todos los derechos reservados.</span>
+            <span>No afiliado oficialmente con Psyonix LLC o Rocket League.</span>
+        </div>
     </footer>
 
     <script src="script.js"></script>
