@@ -1,97 +1,280 @@
-const $ = id => document.getElementById(id);
-
-const ranks = [
-  {name:"Bronze", min:0, max:399, color:"#a66b48"},
-  {name:"Silver", min:400, max:599, color:"#aeb8c8"},
-  {name:"Gold", min:600, max:799, color:"#e6b84e"},
-  {name:"Platinum", min:800, max:999, color:"#55d7c0"},
-  {name:"Diamond", min:1000, max:1199, color:"#5ba9ff"},
-  {name:"Champion", min:1200, max:1399, color:"#c45cff"},
-  {name:"Grand Champion", min:1400, max:1799, color:"#ff596f"},
-  {name:"Supersonic Legend", min:1800, max:5000, color:"#f5f5f5"}
-];
-
-function getRank(mmr){
-  return ranks.find(r => mmr >= r.min && mmr <= r.max) || ranks[ranks.length-1];
+:root {
+    --bg-primary: #090b12;
+    --bg-card: #12151f;
+    --border-color: #1e2330;
+    --accent: #3b82f6;
+    --accent-glow: rgba(59, 130, 246, 0.2);
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
 }
 
-function renderRankList(){
-  $("rankList").innerHTML = ranks.map(r => `
-    <div class="rank-item">
-      <span class="dot" style="--rank-color:${r.color}"></span><strong>${r.name}</strong>
-      <small>${r.min}–${r.max === 5000 ? "∞" : r.max} MMR</small>
-    </div>
-  `).join("");
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 }
 
-function calculate(){
-  let mmr = Math.max(0, Number($("mmr").value) || 0);
-  let change = Math.max(1, Number($("change").value) || 1);
-  let games = Math.max(0, Number($("games").value) || 0);
-  let winrate = Number($("winrate").value);
-  let wins = Math.round(games * winrate / 100);
-  let losses = games - wins;
-  let net = wins - losses;
-  let result = Math.max(0, Math.round(mmr + net * change));
-  let rank = getRank(result);
-
-  $("resultMmr").textContent = result;
-  $("rankBadge").textContent = rank.name.toUpperCase();
-  $("rankBadge").style.color = rank.color;
-  $("rankBadge").style.borderColor = rank.color + "55";
-  $("rankBadge").style.background = rank.color + "14";
-
-  $("gained").textContent = `${result - mmr >= 0 ? "+" : ""}${result - mmr}`;
-  $("wins").textContent = wins;
-  $("losses").textContent = losses;
-  $("resultWinrate").textContent = `${winrate}%`;
-  $("winrateValue").textContent = `${winrate}%`;
-
-  let range = rank.max === 5000 ? 500 : rank.max - rank.min;
-  let progress = rank.max === 5000
-    ? Math.min(100, ((result - rank.min) / range) * 100)
-    : Math.max(0, Math.min(100, ((result - rank.min) / (rank.max - rank.min + 1)) * 100));
-
-  $("progressBar").style.width = `${progress}%`;
-  $("progressText").textContent = rank.max === 5000
-    ? `${Math.max(0, result-rank.min)} MMR dentro de ${rank.name}`
-    : `${Math.max(0, result-rank.min)} / ${rank.max-rank.min+1} MMR`;
-
-  updateTarget(result, change);
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-main);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
-function updateTarget(current, change){
-  let target = Math.max(0, Number($("target").value) || 0);
-  let diff = target - current;
-  if(diff <= 0){
-    $("targetResult").textContent = `Ya estás en ${target} MMR o por encima de ese objetivo.`;
-    return;
-  }
-  let games = Math.ceil(diff / change);
-  $("targetResult").textContent =
-    `Necesitas aproximadamente ${games} victorias netas para alcanzar ${target} MMR.`;
+.bg-grid {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: radial-gradient(rgba(59, 130, 246, 0.08) 1px, transparent 1px);
+    background-size: 24px 24px;
+    z-index: -1;
 }
 
-$("winrate").addEventListener("input", calculate);
-$("calculate").addEventListener("click", calculate);
-$("target").addEventListener("input", () => {
-  const current = Number($("resultMmr").textContent) || 0;
-  const change = Number($("change").value) || 1;
-  updateTarget(current, change);
-});
-["mmr","change","games"].forEach(id => $(id).addEventListener("input", calculate));
-
-renderRankList();
-calculate();
-function calculateStreak() {
-    const currentMMR = Number(document.getElementById("currentStreakMMR").value) || 0;
-    const wins = Number(document.getElementById("winsStreak").value) || 0;
-    // Suponiendo un promedio de +9 MMR por victoria en racha
-    const estimatedGain = wins * 9;
-    const newMMR = currentMMR + estimatedGain;
-
-    document.getElementById("streakResult").textContent = `Con ${wins} victorias consecutivas, tu MMR estimado pasará de ${currentMMR} a ${newMMR}.`;
+.site-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    border-bottom: 1px solid var(--border-color);
+    background: rgba(9, 11, 18, 0.8);
+    backdrop-filter: blur(10px);
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
-document.getElementById("currentStreakMMR").addEventListener("input", calculateStreak);
-document.getElementById("winsStreak").addEventListener("input", calculateStreak);
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: var(--text-main);
+    font-weight: 600;
+}
+
+.brand-mark {
+    background: var(--accent);
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+nav a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+nav a:hover, nav a.active {
+    color: var(--text-main);
+}
+
+main {
+    flex: 1;
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.hero-section, .calculator-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.calculator-layout {
+    grid-template-columns: 1fr;
+    max-width: 600px;
+    margin: 0 auto 60px auto;
+}
+
+.badge {
+    background: var(--accent-glow);
+    color: var(--accent);
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    display: inline-block;
+    margin-bottom: 16px;
+}
+
+h1 {
+    font-size: 36px;
+    line-height: 1.2;
+    margin-bottom: 16px;
+}
+
+.hero-content p, .calculator-card p {
+    color: var(--text-muted);
+    font-size: 15px;
+    line-height: 1.5;
+}
+
+.calculator-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.calculator-card h2 {
+    font-size: 22px;
+    margin-bottom: 8px;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--text-muted);
+    margin-bottom: 8px;
+}
+
+.input-group input {
+    width: 100%;
+    background: var(--bg-primary);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 12px 16px;
+    color: white;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus {
+    border-color: var(--accent);
+}
+
+.result-box {
+    background: rgba(0,0,0,0.2);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 16px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.result-box .label {
+    font-size: 11px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.big-number {
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--accent);
+}
+
+.rank-name {
+    font-size: 14px;
+    font-weight: 600;
+    color: #fff;
+    margin-top: 2px;
+}
+
+.target-result {
+    margin-top: 16px;
+    font-size: 13px;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.ranks-section {
+    margin-bottom: 60px;
+}
+
+.section-title {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 24px;
+}
+
+.section-title h2 {
+    font-size: 24px;
+}
+
+.section-title span {
+    font-size: 13px;
+    color: var(--text-muted);
+}
+
+.rank-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 12px;
+}
+
+.rank-item {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    padding: 16px;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.rank-item .name {
+    font-weight: 700;
+    font-size: 14px;
+}
+
+.rank-item .mmr {
+    font-size: 12px;
+    color: var(--text-muted);
+}
+
+.info-section {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+.info-section h2 {
+    font-size: 20px;
+    margin-bottom: 12px;
+}
+
+.footer {
+    border-top: 1px solid var(--border-color);
+    padding: 30px 40px;
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-muted);
+    background: var(--bg-card);
+}
+
+@media(max-width: 768px) {
+    .hero-section {
+        grid-template-columns: 1fr;
+    }
+    .site-header {
+        padding: 15px 20px;
+    }
+}
