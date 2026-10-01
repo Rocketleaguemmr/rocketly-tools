@@ -83,3 +83,15 @@ $("target").addEventListener("input", () => {
 
 renderRankList();
 calculate();
+function calculateStreak() {
+    const currentMMR = Number(document.getElementById("currentStreakMMR").value) || 0;
+    const wins = Number(document.getElementById("winsStreak").value) || 0;
+    // Suponiendo un promedio de +9 MMR por victoria en racha
+    const estimatedGain = wins * 9;
+    const newMMR = currentMMR + estimatedGain;
+
+    document.getElementById("streakResult").textContent = `Con ${wins} victorias consecutivas, tu MMR estimado pasará de ${currentMMR} a ${newMMR}.`;
+}
+
+document.getElementById("currentStreakMMR").addEventListener("input", calculateStreak);
+document.getElementById("winsStreak").addEventListener("input", calculateStreak);
