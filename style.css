@@ -145,22 +145,26 @@ footer{
   .mmr-result{font-size:43px}
   .rank-badge{font-size:8px;padding:8px}
 }
-/* Estilos para el Simulador de Rachas */
+/* Estilos mejorados para el Simulador de Rachas */
 #streak-calculator {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.06);
-    border-radius: 12px;
-    padding: 24px;
-    max-width: 600px;
+    max-width: 800px;
     margin: 40px auto;
+    padding: 0 20px;
+}
+#streak-calculator .calculator-card {
+    background: #121214;
+    border: 1px solid #27272a;
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
 }
 #streak-calculator h2 {
-    font-size: 20px;
+    font-size: 24px;
     margin-bottom: 8px;
     color: #fff;
 }
 #streak-calculator p {
     color: #a1a1aa;
-    font-size: 14px;
-    margin-bottom: 20px;
+    font-size: 15px;
+    margin-bottom: 24px;
 }
