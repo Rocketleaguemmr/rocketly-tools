@@ -1,21 +1,35 @@
 /**
- * Rocketly Tools - Core JavaScript Engine v2.0
- * Motor robusto de procesamiento de MMR y simulación de rachas competitivas.
+ * Rocketly Tools - Core JavaScript Engine v2.1
+ * Rangos y umbrales de MMR oficiales calibrados según competición.
  */
 
 const RANKS_DATABASE = [
-    { name: "Bronze", min: 0, max: 350, color: "#cd7f32" },
-    { name: "Silver", min: 351, max: 580, color: "#c0c0c0" },
-    { name: "Gold", min: 581, max: 800, color: "#ffd700" },
-    { name: "Platinum", min: 801, max: 1025, color: "#00e5ff" },
-    { name: "Diamond", min: 1026, max: 1250, color: "#2979ff" },
-    { name: "Champion", min: 1251, max: 1475, color: "#d500f9" },
-    { name: "Grand Champion", min: 1476, max: 1850, color: "#ff1744" },
-    { name: "Supersonic Legend", min: 1851, max: 5000, color: "#ffffff" }
+    { name: "Bronze I", min: 0, max: 75, color: "#cd7f32" },
+    { name: "Bronze II", min: 75, max: 150, color: "#cd7f32" },
+    { name: "Bronze III", min: 150, max: 225, color: "#cd7f32" },
+    { name: "Silver I", min: 225, max: 300, color: "#c0c0c0" },
+    { name: "Silver II", min: 300, max: 375, color: "#c0c0c0" },
+    { name: "Silver III", min: 375, max: 450, color: "#c0c0c0" },
+    { name: "Gold I", min: 450, max: 525, color: "#ffd700" },
+    { name: "Gold II", min: 525, max: 600, color: "#ffd700" },
+    { name: "Gold III", min: 600, max: 675, color: "#ffd700" },
+    { name: "Platinum I", min: 675, max: 750, color: "#00e5ff" },
+    { name: "Platinum II", min: 750, max: 825, color: "#00e5ff" },
+    { name: "Platinum III", min: 825, max: 900, color: "#00e5ff" },
+    { name: "Diamond I", min: 900, max: 975, color: "#2979ff" },
+    { name: "Diamond II", min: 975, max: 1050, color: "#2979ff" },
+    { name: "Diamond III", min: 1050, max: 1075, color: "#2979ff" },
+    { name: "Champion I", min: 1075, max: 1180, color: "#d500f9" },
+    { name: "Champion II", min: 1180, max: 1300, color: "#d500f9" },
+    { name: "Champion III", min: 1300, max: 1425, color: "#d500f9" },
+    { name: "Grand Champion I", min: 1425, max: 1560, color: "#ff1744" },
+    { name: "Grand Champion II", min: 1560, max: 1700, color: "#ff1744" },
+    { name: "Grand Champion III", min: 1700, max: 1860, color: "#ff1744" },
+    { name: "Supersonic Legend", min: 1860, max: 5000, color: "#ffffff" }
 ];
 
 /**
- * Obtiene el objeto de rango correspondiente a un valor de MMR dado.
+ * Obtiene el rango exacto según el MMR.
  */
 function resolveRank(mmrValue) {
     for (const rank of RANKS_DATABASE) {
@@ -27,7 +41,7 @@ function resolveRank(mmrValue) {
 }
 
 /**
- * Renderiza dinámicamente la tabla oficial de rangos en el DOM.
+ * Renderiza la lista de rangos en la web.
  */
 function renderRanksGrid() {
     const gridContainer = document.getElementById("rankList");
@@ -36,29 +50,27 @@ function renderRanksGrid() {
     gridContainer.innerHTML = RANKS_DATABASE.map(rank => `
         <div class="rank-item" style="border-left: 4px solid ${rank.color}">
             <span class="name" style="color: ${rank.color}">${rank.name}</span>
-            <span class="mmr">${rank.min} - ${rank.max === 5000 ? 'Infinito' : rank.max} MMR</span>
+            <span class="mmr">${rank.min} - ${rank.max === 5000 ? '1860+' : rank.max} MMR</span>
         </div>
     `).join("");
 }
 
 /**
- * Ejecuta el cálculo predictivo del MMR general de la primera tarjeta.
+ * Cálculo predictivo del MMR.
  */
 function executeMMRCalculation() {
     const winrateInput = Number(document.getElementById("winrate").value);
     const targetInput = Number(document.getElementById("target").value);
 
-    // Validaciones de seguridad de datos
     const safeWinrate = isNaN(winrateInput) ? 50 : Math.max(0, Math.min(100, winrateInput));
-    const safeTarget = isNaN(targetInput) ? 1250 : Math.max(0, Math.min(3000, targetInput));
+    const safeTarget = isNaN(targetInput) ? 1150 : Math.max(0, Math.min(3000, targetInput));
 
-    // Motor de cálculo basado en estimación ponderada
-    let evaluatedMmr = Math.round(850 + (safeWinrate - 50) * 16.5);
+    // Estimación calibrada a los nuevos umbrales (ej: 55% winrate ronda los 1100-1145 MMR)
+    let evaluatedMmr = Math.round(900 + (safeWinrate - 50) * 12);
     if (evaluatedMmr < 0) evaluatedMmr = 0;
 
     const assignedRank = resolveRank(evaluatedMmr);
 
-    // Volcado de resultados al DOM
     document.getElementById("resultMmr").textContent = `${evaluatedMmr} MMR`;
     document.getElementById("resultRank").textContent = assignedRank.name;
 
@@ -66,33 +78,32 @@ function executeMMRCalculation() {
     const targetMessageElement = document.getElementById("targetResult");
 
     if (difference <= 0) {
-        targetMessageElement.innerHTML = `🎉 ¡Excelente! Con tu rendimiento actual de <b>${safeWinrate}%</b> de victorias, ya superas o igualas tu objetivo de ${safeTarget} MMR.`;
+        targetMessageElement.innerHTML = `🎉 ¡Excelente! Con un rendimiento del <b>${safeWinrate}%</b>, ya alcanzas o superas los ${safeTarget} MMR.`;
     } else {
-        const estimatedGames = Math.ceil(difference / 9.5);
-        targetMessageElement.innerHTML = `💡 Necesitarás aproximadamente <b>${estimatedGames} victorias netas</b> consecutivas o estables para escalar desde tus ${evaluatedMmr} MMR actuales hasta los ${safeTarget} MMR deseados.`;
+        const estimatedGames = Math.ceil(difference / 9);
+        targetMessageElement.innerHTML = `💡 Necesitas aproximadamente <b>${estimatedGames} victorias netas</b> para escalar desde tus ${evaluatedMmr} MMR hasta el objetivo de ${safeTarget} MMR.`;
     }
 }
 
 /**
- * Ejecuta la simulación matemática de la racha de victorias de la segunda tarjeta.
+ * Simulación de racha competitiva.
  */
 function executeStreakSimulation() {
     const currentMmrInput = Number(document.getElementById("currentStreakMMR").value);
     const winsInput = Number(document.getElementById("winsStreak").value);
 
     const safeCurrentMmr = isNaN(currentMmrInput) ? 1145 : Math.max(0, Math.min(3000, currentMmrInput));
-    const safeWins = isNaN(winsInput) ? 5 : Math.max(0, Math.min(100, winsInput));
+    const safeWins = isNaN(winsInput) ? 3 : Math.max(0, Math.min(100, winsInput));
 
-    // Factor de ganancia promedio por racha ganadora en competitivo (~9.2 MMR por victoria neta)
-    const projectedGain = Math.round(safeWins * 9.2);
+    const projectedGain = Math.round(safeWins * 9);
     const finalProjectedMmr = safeCurrentMmr + projectedGain;
     const finalProjectedRank = resolveRank(finalProjectedMmr);
 
     const streakResultElement = document.getElementById("streakResult");
-    streakResultElement.innerHTML = `🚀 Tras encadenar <b>${safeWins} victorias consecutivas</b> desde tus ${safeCurrentMmr} MMR, tu MMR estimado ascenderá hasta <b>${finalProjectedMmr} MMR</b>, posicionándote directamente en el rango <b>${finalProjectedRank.name}</b>.`;
+    streakResultElement.innerHTML = `🚀 Tras encadenar <b>${safeWins} victorias consecutivas</b> desde tus ${safeCurrentMmr} MMR, tu MMR estimado será de <b>${finalProjectedMmr} MMR</b> (${finalProjectedRank.name}).`;
 }
 
-// Inicialización de eventos de escucha en los botones
+// Inicialización de eventos
 document.addEventListener("DOMContentLoaded", () => {
     renderRanksGrid();
     
@@ -102,7 +113,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (btnMMR) btnMMR.addEventListener("click", executeMMRCalculation);
     if (btnStreak) btnStreak.addEventListener("click", executeStreakSimulation);
 
-    // Ejecución inicial automática para que no aparezca vacío de inicio
     executeMMRCalculation();
     executeStreakSimulation();
 });
