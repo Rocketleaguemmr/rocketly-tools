@@ -145,3 +145,22 @@ footer{
   .mmr-result{font-size:43px}
   .rank-badge{font-size:8px;padding:8px}
 }
+/* Estilos para el Simulador de Rachas */
+#streak-calculator {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 24px;
+    max-width: 600px;
+    margin: 40px auto;
+}
+#streak-calculator h2 {
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: #fff;
+}
+#streak-calculator p {
+    color: #a1a1aa;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
