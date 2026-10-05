@@ -1,45 +1,101 @@
+// Lógica de la calculadora con los datos exactos de la foto de 2v2
 document.getElementById('calculateBtn').addEventListener('click', function() {
     const mmr = parseInt(document.getElementById('mmrInput').value);
     const resultContainer = document.getElementById('resultContainer');
     const rankOutput = document.getElementById('rankOutput');
+    const divisionOutput = document.getElementById('divisionOutput');
     const rankStatsOutput = document.getElementById('rankStatsOutput');
 
     if (isNaN(mmr) || mmr < 0) {
-        alert('Por favor, introduce un valor de MMR válido.');
+        alert('Por favor, introduce un número de MMR válido.');
         return;
     }
 
     let rango = "";
-    let porcentaje = "";
+    let desc = "";
 
-    // Rangos aproximados estándar (basados en 2v2 / estandar general)
-    if (mmr < 350) {
-        rango = "Bronce";
-        porcentaje = "Aproximadamente el 5% de los jugadores se encuentran aquí o por debajo.";
-    } else if (mmr < 600) {
-        rango = "Plata";
-        porcentaje = "Formas parte del ~15% de jugadores en este nivel.";
-    } else if (mmr < 900) {
-        rango = "Oro";
-        porcentaje = "Te sitúas en el rango más poblado, alrededor del 30% de la base total.";
-    } else if (mmr < 1150) {
-        rango = "Platino";
-        porcentaje = "Estás en el top del ~25% de jugadores. ¡Buen nivel competitivo!";
-    } else if (mmr < 1400) {
-        rango = "Diamante";
-        porcentaje = "¡Felicidades! Estás en el exclusivo grupo del ~15% superior.";
-    } else if (mmr < 1700) {
-        rango = "Campeón";
-        porcentaje = "Eres parte del selecto ~7% de jugadores de alto rendimiento.";
-    } else if (mmr < 2000) {
-        rango = "Gran Campeón (Grand Champion)";
-        porcentaje = "¡Impresionante! Solo el ~1.5% de todo el mundo alcanza este rango.";
+    if (mmr >= 1860) {
+        rango = "Supersonic Legend";
+        desc = "¡Eres parte de la élite mundial absoluta de Rocket League!";
+    } else if (mmr >= 1715) {
+        rango = "Grand Champion III";
+        desc = "Nivel profesional altísimo.";
+    } else if (mmr >= 1574) {
+        rango = "Grand Champion II";
+        desc = "Dominio absoluto del juego y velocidad extrema.";
+    } else if (mmr >= 1435) {
+        rango = "Grand Champion I";
+        desc = "¡El codiciado rango de Gran Campeón!";
+    } else if (mmr >= 1315) {
+        rango = "Champion III";
+        desc = "A las puertas de Grand Champion.";
+    } else if (mmr >= 1195) {
+        rango = "Champion II";
+        desc = "Gran nivel técnico y táctico.";
+    } else if (mmr >= 1075) {
+        rango = "Champion I";
+        desc = "¡Bienvenido al rango morado de Campeón!";
+    } else if (mmr >= 995) {
+        rango = "Diamond III";
+        desc = "Muy cerca del rango morado.";
+    } else if (mmr >= 915) {
+        rango = "Diamond II";
+        desc = "Excelente posicionamiento y consistencia.";
+    } else if (mmr >= 835) {
+        rango = "Diamond I";
+        desc = "¡Entraste en Diamante!";
+    } else if (mmr >= 774) {
+        rango = "Platinum III";
+        desc = "Alto nivel de platino.";
+    } else if (mmr >= 713) {
+        rango = "Platinum II";
+        desc = "Control aéreo básico dominado.";
+    } else if (mmr >= 654) {
+        rango = "Platinum I";
+        desc = "¡Bienvenido a Platino!";
+    } else if (mmr >= 594) {
+        rango = "Gold III";
+        desc = "A un paso de Platino.";
+    } else if (mmr >= 535) {
+        rango = "Gold II";
+        desc = "Buen dominio de los tiros a puerta.";
+    } else if (mmr >= 475) {
+        rango = "Gold I";
+        desc = "¡Rango Oro alcanzado!";
+    } else if (mmr >= 410) {
+        rango = "Silver III";
+        desc = "Plata avanzado.";
+    } else if (mmr >= 352) {
+        rango = "Silver II";
+        desc = "Mejorando los giros y contacto con el balón.";
+    } else if (mmr >= 288) {
+        rango = "Silver I";
+        desc = "¡Rango Plata!";
+    } else if (mmr >= 238) {
+        rango = "Bronze III";
+        desc = "Bronce alto.";
     } else {
-        rango = "Leyenda Supersónica (SSL)";
-        porcentaje = "¡Élite mundial! Menos del 0.05% de los jugadores alcanzan esta categoría.";
+        rango = "Bronze II / Bronze I";
+        desc = "Comenzando tu aventura en el juego.";
     }
 
     rankOutput.textContent = rango;
-    rankStatsOutput.textContent = porcentaje;
+    divisionOutput.textContent = "Divisiones orientativas: DIV IV - III - II - I";
+    rankStatsOutput.textContent = desc;
     resultContainer.style.display = 'block';
+});
+
+// Lógica para los botones de pestañas (navegación limpia)
+const buttons = document.querySelectorAll('.tab-btn');
+const sections = document.querySelectorAll('.content-section');
+
+buttons.forEach(btn => {
+    btn.addEventListener('click', () => {
+        buttons.forEach(b => b.classList.remove('active'));
+        sections.forEach(s => s.classList.remove('active-section'));
+
+        btn.classList.add('active');
+        const targetId = btn.getAttribute('data-target');
+        document.getElementById(targetId).classList.add('active-section');
+    });
 });
