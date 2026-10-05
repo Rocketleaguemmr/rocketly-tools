@@ -1,178 +1,113 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta name="google-site-verification" content="Q1oQf7C6Thn1kx6HVASTk">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#090b12">
-    <meta name="description" content="Rocketly Tools - Suite avanzada de herramientas profesionales, calculadora de MMR y simulador de rachas para Rocket League.">
-    <title>Rocketly Tools — Suite Profesional de Utilidades para Rocket League</title>
-    <link rel="canonical" href="https://hugocarrioncamero2011.github.io/rocketly-tools/">
-    <meta property="og:title" content="Rocketly Tools - Calculadora de MMR y Rachas Pro">
-    <meta property="og:description" content="Calcula tu MMR estimado con precisión, analiza rangos oficiales y simula tus rachas competitivas.">
-    <meta property="og:url" content="https://hugocarrioncamero2011.github.io/rocketly-tools/">
-    <meta property="og:type" content="website">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Rocketly Tools - Rocket League Utilities">
-    <meta name="twitter:description" content="Herramientas de alto rendimiento para jugadores competitivos de Rocket League.">
+    <title>Calculadora de MMR y Guía de Rangos de Rocket League en Español</title>
+    <meta name="description" content="Calcula tu MMR en Rocket League, descubre los porcentajes de jugadores por rango, el tiempo estimado para subir y una guía completa con todas las mecánicas del juego.">
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
-    <div class="bg-grid"></div>
-    <div class="ambient-glow"></div>
 
-    <header class="site-header">
-        <div class="header-container">
-            <a class="brand" href="#" title="Rocketly Tools - Inicio">
-                <span class="brand-mark">RL</span>
-                <span class="brand-text">Rocketly <b>Tools</b></span>
-            </a>
-            <nav class="site-nav">
-                <a class="nav-link active" href="#calculator">Calculadora MMR</a>
-                <a class="nav-link" href="#streak-calculator">Simulador de Rachas</a>
-                <a class="nav-link" href="#ranks">Base de Rangos</a>
-                <a class="nav-link" href="#info">Guía MMR</a>
-            </nav>
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Rocket League Hub: MMR, Rangos y Mecánicas</h1>
+            <p>La guía definitiva y calculadora en español para dominar el juego, calcular tu progreso y entender el meta.</p>
         </div>
     </header>
 
-    <main class="main-content">
-        <!-- SECCIÓN HERO Y CALCULADORA DE MMR -->
-        <section id="calculator" class="hero-section">
-            <div class="hero-content">
-                <div class="badge-wrapper">
-                    <span class="badge">TEMPORADA COMPETITIVA OFICIAL</span>
-                </div>
-                <h1>Motor de Cálculo Predictivo de MMR</h1>
-                <p class="hero-description">
-                    Estima con total precisión tu nivel competitivo analizando tu porcentaje de victorias frente al MMR objetivo que deseas conquistar en las próximas jornadas de clasificatorias.
-                </p>
-                <div class="feature-bullets">
-                    <div class="bullet-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        <span>Algoritmo basado en distribución Elo/MMR real</span>
-                    </div>
-                    <div class="bullet-item">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        <span>Asignación automática de divisiones y rangos</span>
-                    </div>
-                </div>
+    <main class="container">
+        
+        <!-- SECCIÓN 1: CALCULADORA DE MMR -->
+        <section class="card calculator-section">
+            <h2>Calculadora de MMR y Estimación de Rango</h2>
+            <p>Selecciona tu lista de juego y escribe tu MMR actual para descubrir instantáneamente tu rango y el porcentaje de jugadores que están en él.</p>
+            
+            <div class="form-group">
+                <label for="playlist">Lista de Juego (Playlist):</label>
+                <select id="playlist">
+                    <option value="2v2">Doble (2v2 - Competitivo)</option>
+                    <option value="3v3">Estándar (3v3 - Competitivo)</option>
+                    <option value="1v1">Duelos (1v1 - Competitivo)</option>
+                </select>
             </div>
 
-            <div class="calculator-card">
-                <div class="card-header">
-                    <h3>Calculadora de Rendimiento</h3>
-                    <span class="card-subtitle">Configura tus parámetros</span>
+            <div class="form-group">
+                <label for="mmrInput">Introduce tu MMR actual:</label>
+                <input type="number" id="mmrInput" placeholder="Ej: 750" min="0" max="2500">
+            </div>
+
+            <button id="calculateBtn">Calcular Rango</button>
+
+            <div id="resultContainer" class="result-hidden">
+                <h3>Tu Rango Calculado:</h3>
+                <div class="result-box" id="rankOutput">-</div>
+                <p id="rankStatsOutput"></p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2: DISTRIBUCIÓN DE RANGOS Y PORCENTAJES -->
+        <section class="card">
+            <h2>Distribución de Rangos en Rocket League (%)</h2>
+            <p>¿En qué parte de la pirámide estás? Estos datos reflejan el porcentaje aproximado de la comunidad en cada rango global:</p>
+            <div class="table-responsive">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rango</th>
+                            <th>Porcentaje de Jugadores</th>
+                            <th>MMR Aprox. (2v2)</th>
+                            <th>Horas Estimadas para Llegar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>Bronce</td><td>~5%</td><td>0 - 349</td><td>0 - 50 horas</td></tr>
+                        <tr><td>Plata</td><td>~15%</td><td>350 - 599</td><td>50 - 150 horas</td></tr>
+                        <tr><td>Oro</td><td>~30%</td><td>600 - 899</td><td>150 - 300 horas</td></tr>
+                        <tr><td>Platino</td><td>~25%</td><td>900 - 1149</td><td>300 - 600 horas</td></tr>
+                        <tr><td>Diamante</td><td>~15%</td><td>1150 - 1399</td><td>600 - 1,000 horas</td></tr>
+                        <tr><td>Campeón</td><td>~7%</td><td>1400 - 1699</td><td>1,000 - 1,800 horas</td></tr>
+                        <tr><td>Gran Campeón</td><td>~1.5%</td><td>1700 - 1999</td><td>1,800 - 2,500+ horas</td></tr>
+                        <tr><td>Leyenda Supersónica (SSL)</td><td>~0.05%</td><td>2000+</td><td>3,000+ horas</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 3: GUÍA DE MECÁNICAS Y TIEMPOS -->
+        <section class="card">
+            <h2>Guía Completa de Mecánicas y Tiempos de Aprendizaje</h2>
+            <p>Para subir de rango no solo necesitas MMR, necesitas dominar mecánicas. Aquí tienes todas las habilidades del juego y el tiempo de práctica estimado para dominarlas:</p>
+            
+            <div class="mechanics-grid">
+                <div class="mechanic-card">
+                    <h3>Fundamentos Básicos</h3>
+                    <p><strong>Habilidades:</strong> Fast Aerial (Aéreos rápidos), Half-Flip, Rotaciones defensivas, Power Shots.</p>
+                    <p><strong>Tiempo estimado de dominio:</strong> 50 - 200 horas (Recomendado para Oro/Platino).</p>
                 </div>
-
-                <div class="input-group">
-                    <label for="winrate">Porcentaje de Victorias Global (%)</label>
-                    <div class="input-wrapper">
-                        <input id="winrate" type="number" min="0" max="100" value="55" inputmode="numeric" placeholder="Ej: 55">
-                        <span class="input-unit">%</span>
-                    </div>
+                <div class="mechanic-card">
+                    <h3>Mecánicas de Pared y Techo</h3>
+                    <p><strong>Habilidades:</strong> Wall-to-Air Dribble, Ceiling Shots, Backboard Reads.</p>
+                    <p><strong>Tiempo estimado de dominio:</strong> 200 - 500 horas (Recomendado para Diamante/Campeón).</p>
                 </div>
-
-                <div class="input-group">
-                    <label for="target">MMR Objetivo Deseado</label>
-                    <div class="input-wrapper">
-                        <input id="target" type="number" min="0" max="3000" value="1250" inputmode="numeric" placeholder="Ej: 1250">
-                        <span class="input-unit">MMR</span>
-                    </div>
+                <div class="mechanic-card">
+                    <h3>Control de Balón Avanzado</h3>
+                    <p><strong>Habilidades:</strong> Dribling en suelo, Flick (Diagonal, Maktuf), Air Dribbles complejos.</p>
+                    <p><strong>Tiempo estimado de dominio:</strong> 300 - 600 horas (Recomendado para Platino avanzado/Diamante).</p>
                 </div>
-
-                <button id="btnCalculateMMR" class="primary-btn">
-                    <span>Calcular Predicción MMR</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </button>
-
-                <div id="resultContainer" class="result-box">
-                    <div class="result-header">
-                        <span class="label">ESTIMACIÓN DE NIVELES</span>
-                        <div class="status-dot"></div>
-                    </div>
-                    <div class="result-grid">
-                        <div class="result-item">
-                            <span class="sublabel">MMR Proyectado</span>
-                            <div id="resultMmr" class="big-number">-- MMR</div>
-                        </div>
-                        <div class="result-item">
-                            <span class="sublabel">Rango Asignado</span>
-                            <div id="resultRank" class="rank-name">Pendiente de cálculo</div>
-                        </div>
-                    </div>
-                    <div id="targetResult" class="target-result">Introduce tus valores y pulsa calcular para iniciar el motor.</div>
+                <div class="mechanic-card">
+                    <h3>Mecánicas de Élite</h3>
+                    <p><strong>Habilidades:</strong> Flip Reset, Musty Flick, Speed Flip avanzado, Doble Toque en aire (Double Tap).</p>
+                    <p><strong>Tiempo estimado de dominio:</strong> 800 - 2,000+ horas (Recomendado para Campeón y superior).</p>
                 </div>
             </div>
         </section>
 
-        <!-- SECCIÓN SIMULADOR DE RACHAS -->
-        <section id="streak-calculator" class="calculator-layout">
-            <div class="calculator-card wide-card">
-                <div class="card-header">
-                    <h2>Simulador Avanzado de Rachas de Victorias</h2>
-                    <p class="card-subtitle">Descubre cómo impacta de forma directa una racha positiva o negativa en tu progresión de rangos.</p>
-                </div>
-
-                <div class="form-grid">
-                    <div class="input-group">
-                        <label for="currentStreakMMR">Tu MMR Actual en Ranked</label>
-                        <div class="input-wrapper">
-                            <input id="currentStreakMMR" type="number" min="0" max="3000" value="1145" inputmode="numeric">
-                            <span class="input-unit">MMR</span>
-                        </div>
-                    </div>
-                    <div class="input-group">
-                        <label for="winsStreak">Victorias Consecutivas en Racha</label>
-                        <div class="input-wrapper">
-                            <input id="winsStreak" type="number" min="0" max="100" value="5" inputmode="numeric">
-                            <span class="input-unit">Partidas</span>
-                        </div>
-                    </div>
-                </div>
-
-                <button id="btnCalculateStreak" class="primary-btn">
-                    <span>Simular Impacto de Racha</span>
-                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
-                </button>
-
-                <div id="streakResult" class="target-result highlight-result">
-                    Configura los datos y pulsa el botón para simular tu racha.
-                </div>
-            </div>
-        </section>
-
-        <!-- SECCIÓN DE RANGOS OFICIALES -->
-        <section id="ranks" class="ranks-section">
-            <div class="section-title">
-                <div>
-                    <p class="label">JERARQUÍA COMPETITIVA</p>
-                    <h2>Tabla Oficial de Rangos y Umbrales</h2>
-                </div>
-                <span>Distribución oficial de MMR por divisiones de nivel.</span>
-            </div>
-            <div id="rankList" class="rank-list"></div>
-        </section>
-
-        <!-- SECCIÓN DE INFORMACIÓN Y SEO -->
-        <section id="info" class="info-section">
-            <div class="info-grid">
-                <div>
-                    <p class="label">DOCUMENTACIÓN</p>
-                    <h2>¿Cómo interpretar las métricas de Rocketly Tools?</h2>
-                </div>
-                <p>
-                    El sistema competitivo de Rocket League emplea algoritmos avanzados de emparejamiento basados en MMR visible y oculto (Matchmaking Rating). Nuestras herramientas procesan estimaciones estadísticas matemáticas avanzadas para ofrecerte guías de progresión fiables en tiempo real sin alterar datos externos.
-                </p>
-            </div>
-        </section>
     </main>
 
-    <footer class="footer">
-        <div class="footer-content">
-            <span>© 2026 Rocketly Tools. Todos los derechos reservados.</span>
-            <span>No afiliado oficialmente con Psyonix LLC o Rocket League.</span>
-        </div>
+    <footer>
+        <p>&copy; 2026 Rocket League Hub. Creado para la comunidad hispanohablante de RL.</p>
     </footer>
 
     <script src="script.js"></script>
