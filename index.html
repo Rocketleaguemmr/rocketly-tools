@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de MMR y Guía de Rangos de Rocket League en Español</title>
-    <meta name="description" content="Calcula tu MMR en Rocket League, descubre los porcentajes de jugadores por rango, el tiempo estimado para subir y una guía completa con todas las mecánicas del juego.">
+    <title>Calculadora MMR - Rocket League 2v2</title>
+    <meta name="description" content="Calcula tu MMR y división exacta en Rocket League 2v2. Guía de rangos, mecánicas, porcentajes y top 100.">
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
@@ -12,102 +12,170 @@
 
     <header class="hero">
         <div class="hero-content">
-            <h1>Rocket League Hub: MMR, Rangos y Mecánicas</h1>
-            <p>La guía definitiva y calculadora en español para dominar el juego, calcular tu progreso y entender el meta.</p>
+            <h1>Calculadora MMR</h1>
+            <p>La herramienta definitiva para Rocket League 2v2 Doubles</p>
         </div>
     </header>
 
     <main class="container">
         
-        <!-- SECCIÓN 1: CALCULADORA DE MMR -->
-        <section class="card calculator-section">
-            <h2>Calculadora de MMR y Estimación de Rango</h2>
-            <p>Selecciona tu lista de juego y escribe tu MMR actual para descubrir instantáneamente tu rango y el porcentaje de jugadores que están en él.</p>
+        <!-- SECCIÓN PRINCIPAL: CALCULADORA -->
+        <section class="card calculator-card" id="seccion-calculadora">
+            <h2>Calculadora de Rango y División (2v2)</h2>
+            <p>Introduce tu MMR actual de Dobles para descubrir tu rango exacto y tu división basándonos en el sistema oficial.</p>
             
             <div class="form-group">
-                <label for="playlist">Lista de Juego (Playlist):</label>
-                <select id="playlist">
-                    <option value="2v2">Doble (2v2 - Competitivo)</option>
-                    <option value="3v3">Estándar (3v3 - Competitivo)</option>
-                    <option value="1v1">Duelos (1v1 - Competitivo)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="mmrInput">Introduce tu MMR actual:</label>
-                <input type="number" id="mmrInput" placeholder="Ej: 750" min="0" max="2500">
+                <label for="mmrInput">Tu MMR en 2v2:</label>
+                <input type="number" id="mmrInput" placeholder="Ej: 950" min="0" max="3000">
             </div>
 
             <button id="calculateBtn">Calcular Rango</button>
 
             <div id="resultContainer" class="result-hidden">
-                <h3>Tu Rango Calculado:</h3>
+                <h3>Resultado de tu Búsqueda:</h3>
                 <div class="result-box" id="rankOutput">-</div>
+                <div class="division-box" id="divisionOutput">-</div>
                 <p id="rankStatsOutput"></p>
             </div>
         </section>
 
-        <!-- SECCIÓN 2: DISTRIBUCIÓN DE RANGOS Y PORCENTAJES -->
-        <section class="card">
-            <h2>Distribución de Rangos en Rocket League (%)</h2>
-            <p>¿En qué parte de la pirámide estás? Estos datos reflejan el porcentaje aproximado de la comunidad en cada rango global:</p>
-            <div class="table-responsive">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Rango</th>
-                            <th>Porcentaje de Jugadores</th>
-                            <th>MMR Aprox. (2v2)</th>
-                            <th>Horas Estimadas para Llegar</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr><td>Bronce</td><td>~5%</td><td>0 - 349</td><td>0 - 50 horas</td></tr>
-                        <tr><td>Plata</td><td>~15%</td><td>350 - 599</td><td>50 - 150 horas</td></tr>
-                        <tr><td>Oro</td><td>~30%</td><td>600 - 899</td><td>150 - 300 horas</td></tr>
-                        <tr><td>Platino</td><td>~25%</td><td>900 - 1149</td><td>300 - 600 horas</td></tr>
-                        <tr><td>Diamante</td><td>~15%</td><td>1150 - 1399</td><td>600 - 1,000 horas</td></tr>
-                        <tr><td>Campeón</td><td>~7%</td><td>1400 - 1699</td><td>1,000 - 1,800 horas</td></tr>
-                        <tr><td>Gran Campeón</td><td>~1.5%</td><td>1700 - 1999</td><td>1,800 - 2,500+ horas</td></tr>
-                        <tr><td>Leyenda Supersónica (SSL)</td><td>~0.05%</td><td>2000+</td><td>3,000+ horas</td></tr>
-                    </tbody>
-                </table>
-            </div>
-        </section>
+        <!-- BOTONES DE NAVEGACIÓN RÁPIDA -->
+        <nav class="nav-buttons">
+            <button class="tab-btn active" data-target="rangos">Tabla de Rangos</button>
+            <button class="tab-btn" data-target="horas">Horas por Rango</button>
+            <button class="tab-btn" data-target="mecanicas">Mecánicas</button>
+            <button class="tab-btn" data-target="porcentajes">Porcentajes</button>
+            <button class="tab-btn" data-target="tips">Tips de Juego</button>
+            <button class="tab-btn" data-target="exclusivos">Objetos Exclusivos</button>
+            <button class="tab-btn" data-target="top100">Top 100 (2v2)</button>
+        </nav>
 
-        <!-- SECCIÓN 3: GUÍA DE MECÁNICAS Y TIEMPOS -->
-        <section class="card">
-            <h2>Guía Completa de Mecánicas y Tiempos de Aprendizaje</h2>
-            <p>Para subir de rango no solo necesitas MMR, necesitas dominar mecánicas. Aquí tienes todas las habilidades del juego y el tiempo de práctica estimado para dominarlas:</p>
-            
-            <div class="mechanics-grid">
-                <div class="mechanic-card">
-                    <h3>Fundamentos Básicos</h3>
-                    <p><strong>Habilidades:</strong> Fast Aerial (Aéreos rápidos), Half-Flip, Rotaciones defensivas, Power Shots.</p>
-                    <p><strong>Tiempo estimado de dominio:</strong> 50 - 200 horas (Recomendado para Oro/Platino).</p>
-                </div>
-                <div class="mechanic-card">
-                    <h3>Mecánicas de Pared y Techo</h3>
-                    <p><strong>Habilidades:</strong> Wall-to-Air Dribble, Ceiling Shots, Backboard Reads.</p>
-                    <p><strong>Tiempo estimado de dominio:</strong> 200 - 500 horas (Recomendado para Diamante/Campeón).</p>
-                </div>
-                <div class="mechanic-card">
-                    <h3>Control de Balón Avanzado</h3>
-                    <p><strong>Habilidades:</strong> Dribling en suelo, Flick (Diagonal, Maktuf), Air Dribbles complejos.</p>
-                    <p><strong>Tiempo estimado de dominio:</strong> 300 - 600 horas (Recomendado para Platino avanzado/Diamante).</p>
-                </div>
-                <div class="mechanic-card">
-                    <h3>Mecánicas de Élite</h3>
-                    <p><strong>Habilidades:</strong> Flip Reset, Musty Flick, Speed Flip avanzado, Doble Toque en aire (Double Tap).</p>
-                    <p><strong>Tiempo estimado de dominio:</strong> 800 - 2,000+ horas (Recomendado para Campeón y superior).</p>
+        <!-- SECCIONES DINÁMICAS (OCULTAS/VISIBLES CON BOTONES) -->
+        <div id="rangos" class="content-section active-section">
+            <div class="card">
+                <h2>Tabla Completa de Rangos y MMR (2v2)</h2>
+                <p>Basado en los datos oficiales del sistema de emparejamiento:</p>
+                <div class="table-responsive">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Rango</th>
+                                <th>MMR Requerido</th>
+                                <th>Divisiones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr><td>Supersonic Legend</td><td>1860+</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Grand Champion III</td><td>1715 - 1859</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Grand Champion II</td><td>1574 - 1714</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Grand Champion I</td><td>1435 - 1573</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Champion III</td><td>1315 - 1434</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Champion II</td><td>1195 - 1314</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Champion I</td><td>1075 - 1194</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Diamond III</td><td>995 - 1074</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Diamond II</td><td>915 - 994</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Diamond I</td><td>835 - 914</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Platinum III</td><td>774 - 834</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Platinum II</td><td>713 - 773</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Platinum I</td><td>654 - 712</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Gold III</td><td>594 - 653</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Gold II</td><td>535 - 593</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Gold I</td><td>475 - 534</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Silver III</td><td>410 - 474</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Silver II</td><td>352 - 409</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Silver I</td><td>288 - 351</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Bronze III</td><td>238 - 287</td><td>DIV IV - III - II - I</td></tr>
+                            <tr><td>Bronze II / I</td><td>0 - 237</td><td>DIV IV - III - II - I</td></tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
-        </section>
+        </div>
+
+        <div id="horas" class="content-section">
+            <div class="card">
+                <h2>Tiempo Estimado de Horas por Rango</h2>
+                <ul class="styled-list">
+                    <li><strong>Bronce / Plata:</strong> 0 - 150 horas (Aprendiendo control básico del coche y golpear el balón).</li>
+                    <li><strong>Oro / Platino:</strong> 150 - 500 horas (Primeros vuelos, rotaciones básicas y colocación).</li>
+                    <li><strong>Diamante / Campeón:</strong> 500 - 1,500 horas (Consistencia, jugadas de pared y velocidad alta).</li>
+                    <li><strong>Gran Campeón / SSL:</strong> 1,500 - 3,500+ horas (Dominio absoluto, técnica milimétrica y lectura de rivales).</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="mecanicas" class="content-section">
+            <div class="card">
+                <h2>Mecánicas recomendadas por nivel y tiempo</h2>
+                <div class="mechanics-grid">
+                    <div class="mech-box">
+                        <h3>Bronce - Oro</h3>
+                        <p><strong>Mecánicas:</strong> Tiros potentes, saltos básicos, half-flip básico.</p>
+                        <p><strong>Tiempo:</strong> 0 - 200 horas</p>
+                    </div>
+                    <div class="mech-box">
+                        <h3>Platino - Diamante</h3>
+                        <p><strong>Mecánicas:</strong> Fast aerials, tiros de pared, driblingen suelo básico.</p>
+                        <p><strong>Tiempo:</strong> 200 - 600 horas</p>
+                    </div>
+                    <div class="mech-box">
+                        <h3>Campeón - SSL</h3>
+                        <p><strong>Mecánicas:</strong> Flip resets, Air dribbles avanzados, speed flips, double taps.</p>
+                        <p><strong>Tiempo:</strong> 600 - 3000+ horas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="porcentajes" class="content-section">
+            <div class="card">
+                <h2>Porcentaje de Jugadores por Rango (2v2)</h2>
+                <p>Distribución estimada de la población en el competitivo:</p>
+                <ul class="styled-list">
+                    <li>Bronce: ~5%</li>
+                    <li>Plata: ~15%</li>
+                    <li>Oro: ~30% (El rango más común)</li>
+                    <li>Platino: ~20%</li>
+                    <li>Diamante: ~15%</li>
+                    <li>Campeón: ~10%</li>
+                    <li>Gran Campeón y SSL: ~5% combinado</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="tips" class="content-section">
+            <div class="card">
+                <h2>Tips y Consejos Generales para Subir</h2>
+                <ul class="styled-list">
+                    <li><strong>No hagas "double commit":</strong> Si tu compañero va a por el balón en ataque, quédate cubriendo atrás.</li>
+                    <li><strong>Gestión de turbo:</strong> No gastes todo el boost persiguiendo balones imposibles; coge pastillas pequeñas.</li>
+                    <li><strong>Juega en equipo:</strong> Cede el balón si tu compañero está mejor posicionado. El 2v2 premia la inteligencia táctica por encima de jugadas individuales arriesgadas.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="exclusivos" class="content-section">
+            <div class="card">
+                <h2>Objetos más Exclusivos del Juego</h2>
+                <ul class="styled-list">
+                    <li><strong>Alpha Boost (Goldstone / Gold Rush):</strong> Otorgado solo a los participantes de las primeras alfas cerradas de 2014. Su valor en la comunidad es altísimo.</li>
+                    <li><strong>Ruedas White Hat:</strong> Recompensas rarísimas entregadas por Psyonix a hackers éticos que reportaron bugs críticos de seguridad.</li>
+                    <li><strong>Recompensas de temporada SSL:</strong> Títulos y distintivos de color blanco brillante exclusivos para los mejores del mundo al cerrar cada temporada.</li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="top100" class="content-section">
+            <div class="card">
+                <h2>Top 100 de Jugadores en 2v2</h2>
+                <p>Los puestos más altos de la tabla global de clasificación de Dobles están dominados por jugadores profesionales de RLCS (como Zen, Vatira, BeastMode, etc.), superando siempre los 2300 - 2600 de MMR en la cúspide de Supersonic Legend.</p>
+            </div>
+        </div>
 
     </main>
 
     <footer>
-        <p>&copy; 2026 Rocket League Hub. Creado para la comunidad hispanohablante de RL.</p>
+        <p>&copy; 2026 Calculadora MMR Rocket League</p>
     </footer>
 
     <script src="script.js"></script>
